@@ -10,12 +10,19 @@
             Progress: {{ taskClone.progress }}%<br>
             Completed: {{ taskClone.job_completed }}<br>
         </div>
+        <div class="w-1/12">
+            <CircleProgressBar :value="taskClone.progress" :max="100" colorUnfilled="pink" colorFilled="red" percentage rounded>
+                <div class="text-xs font-bold text-gray-400">{{ taskClone.progress }} / 100</div>
+            </CircleProgressBar>
+        </div>
+
     </div>
 </template>
 
 <script setup>
 import { router } from '@inertiajs/vue3';
 import { ref } from 'vue';
+import { CircleProgressBar } from 'vue3-m-circle-progress-bar';
 
 const props = defineProps({
     task: {
@@ -105,5 +112,8 @@ const startPolling = () => {
 <style>
 button {
     @apply px-3 py-2 rounded-md text-center text-white;
+}
+.circle-progress__percentage {
+    @apply font-bold text-2xl text-gray-500;
 }
 </style>
