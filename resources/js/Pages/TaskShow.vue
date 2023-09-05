@@ -1,10 +1,13 @@
 <template>
     <div class="p-8">
-        <button @click="startRendering()">Start Async Task</button>
+        <button @click="startAsyncTask()" :class="buttonClass" :disabled="isButtonDisabled">
+            {{ buttonText }}
+        </button>
         <div class="py-8">
+            Task id: {{ taskClone.id }}<br>
             Name: {{ taskClone.name }}<br>
             Started: {{ taskClone.job_started }}<br>
-            Progress: {{ taskClone.progress }}<br>
+            Progress: {{ taskClone.progress }}%<br>
             Completed: {{ taskClone.job_completed }}<br>
         </div>
     </div>
@@ -18,11 +21,11 @@ const props = defineProps({
     task: {
         type: Object
     }
-})
+});
 
 const taskClone = ref({...props.task});
 
-const startRendering = () => {
+const startAsyncTask = () => {
     router.post(route('task.start', props.task.id), null, {
         onSuccess: () => {
             startPolling();
@@ -34,6 +37,46 @@ const startRendering = () => {
 };
 
 let interval;
+let isJobRunning = ref(false);
+let isJobStarted = ref(props.task.job_started);
+let isJobCompleted = ref(props.task.job_completed);
+let buttonText = ref('');
+const buttonClass = ref('');
+let isButtonDisabled = ref(false);
+
+const updateStatusTaskReady = () => {
+    isJobRunning.value = false;
+    isJobCompleted.value = false;
+    isButtonDisabled.value = false;
+    buttonText.value = 'Start Async Task';
+    buttonClass.value = 'bg-blue-500 opacity-100';
+};
+
+const updateStatusTaskRunning = () => {
+    isJobRunning.value = true;
+    isJobCompleted.value = false;
+    isButtonDisabled.value = true;
+    buttonText.value = 'Task running...';
+    buttonClass.value = 'bg-gray-500 opacity-50 cursor-not-allowed';
+};
+
+const updateStatusTaskCompleted = () => {
+    isJobRunning.value = false;
+    isJobCompleted.value = true;
+    isButtonDisabled.value = true;
+    buttonText.value = 'Task Completed';
+    buttonClass.value = 'bg-red-500 opacity-50 cursor-not-allowed';
+};
+
+if (isJobCompleted.value) {
+    updateStatusTaskCompleted();
+} else {
+    if (isJobStarted.value) {
+        updateStatusTaskRunning();
+    } else {
+        updateStatusTaskReady();
+    }
+}
 
 const startPolling = () => {
     interval = setInterval(() => {
@@ -41,17 +84,19 @@ const startPolling = () => {
             only: ['task']
         })*/
 
+        updateStatusTaskRunning();
         axios
             .get(route('task.status', props.task.id))
             .then(res => {
-                if (res.status !== 200) return
+                if (res.status !== 200) return;
+
+                taskClone.value = res.data;
 
                 if (res.data.job_completed) {
+                    updateStatusTaskCompleted();
                     clearInterval(interval);
                     return;
                 }
-
-                taskClone.value = res.data;
             })
     }, 1000);
 };
@@ -59,6 +104,6 @@ const startPolling = () => {
 
 <style>
 button {
-    @apply px-3 py-2 rounded-md bg-blue-500 text-center text-white
+    @apply px-3 py-2 rounded-md text-center text-white;
 }
 </style>

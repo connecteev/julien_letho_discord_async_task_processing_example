@@ -35,6 +35,10 @@ class ProcessVideo implements ShouldQueue
 
         while ($progress < 100) {
             $progress += random_int(10, 20);
+            if ($progress > 100) {
+                $progress = 100;
+            }
+            //info('progress: ' . $progress);
             $this->task->progress = $progress;
             $this->task->save();
 

@@ -23,8 +23,11 @@ class TaskController extends Controller
 
     public function start(Task $task): RedirectResponse
     {
-        if($task->job_completed) {
+        if ($task->job_completed) {
             return back()->withErrors('job already completed', 'job.completed');
+        }
+        if ($task->job_started) {
+            return back()->withErrors('job already started', 'job.started');
         }
 
         dispatch(new ProcessVideo($task));

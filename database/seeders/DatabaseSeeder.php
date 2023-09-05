@@ -13,7 +13,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        Task::create(['name' => 'Task 1']);
+        Task::create(['name' => 'Process Video Task']);
 
         // \App\Models\User::factory(10)->create();
 
