@@ -26,16 +26,11 @@ class DummyTaskWithOutput extends Command
     {
         echo "Starting Dummy Task...\n";
 
-        echo "Executing Step 1 of 5\n";
-        sleep(2);
-        echo "Executing Step 2 of 5\n";
-        sleep(2);
-        echo "Executing Step 3 of 5\n";
-        sleep(2);
-        echo "Executing Step 4 of 5\n";
-        sleep(2);
-        echo "Executing Step 5 of 5\n";
-        sleep(2);
+        $total_steps = 10;
+        for ($i=1; $i <= $total_steps; $i++) {
+            echo "Executing Step $i of $total_steps\n";
+            sleep(1);
+        }
         echo "Task completed.\n";
     }
 }
