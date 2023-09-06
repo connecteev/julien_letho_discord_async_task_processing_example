@@ -9,7 +9,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use function random_int;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Process;
 
 class ProcessVideo implements ShouldQueue
 {
@@ -33,16 +34,30 @@ class ProcessVideo implements ShouldQueue
         $this->task->job_started = true;
         $this->task->save();
 
-        while ($progress < 100) {
-            $progress += random_int(10, 20);
-            if ($progress > 100) {
-                $progress = 100;
-            }
-            //info('progress: ' . $progress);
-            $this->task->progress = $progress;
-            $this->task->save();
+        //Artisan::call('video:process-mp4-video-for-hls-streaming');
+        //$output = Artisan::output() // Get the output of the command
 
-            sleep(3);
+        $process = Process::timeout(1200)->start('php artisan video:process-mp4-video-for-hls-streaming');
+
+        $output = "";
+        $latestOutput = "";
+        $outputArray = [];
+        $max_entries = 5;
+        while ($process->running()) {
+            $latestOutput = $process->latestOutput();
+
+//array_unshift($outputArray, $latestOutput);
+//while (count($outputArray) > $max_entries) {
+//    array_pop($outputArray);
+//}
+
+            if (strlen($latestOutput) > 0) {
+                $output .= $latestOutput . "<br/>";
+
+                $this->task->output = $output;
+                $this->task->save();
+            }
+
         }
 
         $this->task->job_completed = true;

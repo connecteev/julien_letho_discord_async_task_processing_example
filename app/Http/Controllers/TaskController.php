@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\DummyJobSlowCountToOneHundred;
 use App\Jobs\ProcessVideo;
 use App\Models\Task;
 use Illuminate\Http\JsonResponse;
@@ -30,7 +31,11 @@ class TaskController extends Controller
             return back()->withErrors('job already started', 'job.started');
         }
 
-        dispatch(new ProcessVideo($task));
+        if ($task->id === 1) {
+            dispatch(new DummyJobSlowCountToOneHundred($task));
+        } else if ($task->id === 2) {
+            dispatch(new ProcessVideo($task));
+        }
         return back();
     }
 
