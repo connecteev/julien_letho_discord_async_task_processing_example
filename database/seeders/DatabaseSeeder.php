@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         Task::create(['id' => 1, 'name' => 'Dummy Task (Slow Count to One Hundred)']);
-        Task::create(['id' => 2, 'name' => 'Process Video Task']);
+        Task::create(['id' => 2, 'name' => 'Dummy Task with Output']);
 
         // \App\Models\User::factory(10)->create();
 

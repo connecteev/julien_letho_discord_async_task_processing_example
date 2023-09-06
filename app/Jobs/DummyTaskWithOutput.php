@@ -12,7 +12,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Process;
 
-class ProcessVideo implements ShouldQueue
+class DummyTaskWithOutput implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -34,10 +34,9 @@ class ProcessVideo implements ShouldQueue
         $this->task->job_started = true;
         $this->task->save();
 
-        //Artisan::call('video:process-mp4-video-for-hls-streaming');
+        //Artisan::call('dummy:task-with-output');
         //$output = Artisan::output() // Get the output of the command
-
-        $process = Process::timeout(1200)->start('php artisan video:process-mp4-video-for-hls-streaming');
+        $process = Process::timeout(1200)->start('php artisan dummy:task-with-output');
 
         $output = "";
         $latestOutput = "";
@@ -46,18 +45,18 @@ class ProcessVideo implements ShouldQueue
         while ($process->running()) {
             $latestOutput = $process->latestOutput();
 
-//array_unshift($outputArray, $latestOutput);
-//while (count($outputArray) > $max_entries) {
-//    array_pop($outputArray);
-//}
-
             if (strlen($latestOutput) > 0) {
-                $output .= $latestOutput . "<br/>";
-
+                array_unshift($outputArray, $latestOutput);
+                while (count($outputArray) > $max_entries) {
+                    array_pop($outputArray);
+                }
+                $output = "";
+                foreach (array_reverse($outputArray) as $v) {
+                    $output .= $v . "<br/>";
+                }
                 $this->task->output = $output;
                 $this->task->save();
             }
-
         }
 
         $this->task->job_completed = true;

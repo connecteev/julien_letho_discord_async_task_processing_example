@@ -10,7 +10,7 @@
             Progress: {{ taskClone.progress }}%<br>
             Completed: {{ taskClone.job_completed }}<br>
             Output: <br>
-            <span v-html="taskClone.output"></span><br>
+            <span class="text-xs font-bold text-gray-400" v-html="taskClone.output"></span><br>
         </div>
         <div class="w-1/12">
             <CircleProgressBar :value="taskClone.progress" :max="100" colorUnfilled="pink" colorFilled="red" percentage rounded>
