@@ -16,11 +16,12 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         Task::create(['id' => 1, 'name' => 'Dummy Task (Slow Count to One Hundred)']);
-        Task::create(['id' => 2, 'name' => 'Dummy Task with Output']);
+        Task::create(['id' => 2, 'name' => 'Dummy Task with Output (Polling)']);
+        Task::create(['id' => 3, 'name' => 'Dummy Task with Output (Websockets)']);
 
         User::create([
-            'name' => 'Julien',
-            'email' => 'jj@gmail.com',
+            'name'     => 'Julien',
+            'email'    => 'jj@gmail.com',
             'password' => bcrypt(12345)
         ]);
 

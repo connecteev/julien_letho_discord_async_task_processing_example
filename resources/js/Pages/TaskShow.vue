@@ -1,8 +1,9 @@
 <template>
     <button @click="start()">Start</button>
     <div>
-        <p v-for="update in updatesReceived" :key="update">
-            {{ update }}
+
+        <p v-for="o in output" :key="o">
+            Created: [{{ o.created }}] | Message: {{ o.message }}
         </p>
     </div>
 </template>
@@ -23,19 +24,20 @@ const user = usePage().props.auth.user
 window.Echo
       .channel('public')
       .listen('UpdateProgress', e => {
-          updatesReceived.value.push(e.message)
+          console.log(e)
       })
 
 // Private Channel
 window.Echo
       .private('private.' + props.task.id)
       .listen('UpdateProgress', e => {
-          updatesReceived.value.push(e.message)
+          console.log(e)
+          output.value = e.task.output
       })
+
+const output = ref()
 
 const start = () => {
     router.post(route('task.start', props.task.id))
 }
-
-const updatesReceived = ref([])
 </script>

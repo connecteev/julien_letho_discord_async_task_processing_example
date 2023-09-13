@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->string('name');
             $table->boolean('job_started')->default(false);
             $table->boolean('job_completed')->default(false);
-            $table->text('output')->nullable();
+            $table->json('output');
             $table->unsignedTinyInteger('progress')->default(0);
             $table->timestamps();
         });

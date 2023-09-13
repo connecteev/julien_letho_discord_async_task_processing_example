@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Process;
 use function broadcast;
 use function event;
+use function now;
 use function sleep;
 
 class DummyTaskWithOutput implements ShouldQueue
@@ -33,42 +34,37 @@ class DummyTaskWithOutput implements ShouldQueue
      */
     public function handle(): void
     {
-        /*      info('Job running');
-              $progress = 0;
-              $this->task->job_started = true;
-              $this->task->save();
+        $progress = 0;
+        $this->task->job_started = true;
+        $this->task->save();
 
-              //Artisan::call('dummy:task-with-output');
-              //$output = Artisan::output() // Get the output of the command
-              $process = Process::timeout(1200)->start('php artisan dummy:task-with-output');
+        //Artisan::call('dummy:task-with-output');
+        //$output = Artisan::output() // Get the output of the command
+        $process = Process::timeout(1200)->start('php artisan dummy:task-with-output');
 
-              $output = "";
-              $latestOutput = "";
-              $outputArray = [];
-              $max_entries = 5;
-              while ($process->running()) {
-                  $latestOutput = $process->latestOutput();
+        $output = "";
+        $latestOutput = "";
+        $outputArray = [];
+        $max_entries = 5;
+        /*while ($process->running()) {
+            $latestOutput = $process->latestOutput();
 
-                  if (strlen($latestOutput) > 0) {
-                      array_unshift($outputArray, $latestOutput);
-                      while (count($outputArray) > $max_entries) {
-                          array_pop($outputArray);
-                      }
-                      $output = "";
-                      foreach (array_reverse($outputArray) as $v) {
-                          $output .= $v . "<br/>";
-                      }
-                      $this->task->output = $output;
-                      $this->task->save();
-                  }
-              }*/
+            if (strlen($latestOutput) > 0) {
+                array_unshift($outputArray, $latestOutput);
+                while (count($outputArray) > $max_entries) {
+                    array_pop($outputArray);
+                }
+                $output = "";
+                foreach (array_reverse($outputArray) as $v) {
+                    $output .= $v . "<br/>";
+                }
 
-        $count = 0;
+                event(new UpdateProgress('Status updated: ' . now(), $this->task));
 
-        while ($count < 5) {
-            event(new UpdateProgress('Status updated: ' . now(), $this->task));
-            $count++;
-            sleep(3);
-        }
+                $this->task->output = $output;
+                $this->task->save();
+            }
+        }*/
+
     }
 }

@@ -18,5 +18,5 @@ Broadcast::channel('public', fn() => true);
 
 // Private channel, $user argument is required to work
 Broadcast::channel('private.{taskId}', function (User $user, int $taskId) {
-    return $taskId === 2;
+    return $taskId === 3;
 });

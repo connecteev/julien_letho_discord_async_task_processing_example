@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TaskController;
+use App\Models\Task;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -39,3 +40,13 @@ Route::controller(TaskController::class)->group(function () {
 
 Route::get('/login', [AuthenticatedSessionController::class, 'create']);
 Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('login');
+
+Route::get('/test', function () {
+    $task = Task::find(3);
+
+    $tempOutput = $task->output;
+    $tempOutput[] = ['message' => fake()->sentence(), now()];
+    $task->output = $tempOutput;
+
+    dd($task->output);
+});
