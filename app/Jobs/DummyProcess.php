@@ -41,17 +41,14 @@ class DummyProcess implements ShouldQueue
         $count = 0;
 
         while ($count++ < 15) {
-            //usleep(random_int(0, 5000));
-            sleep(5);
-            info('Logging sleep: ' . now());
+            usleep(random_int(1000, 3000) * 1000);
+            //sleep(5);
 
             $tempOutput = $this->task->output;
             $tempOutput[] = ['message' => fake()->sentence(), 'created' => now()];
             $this->task->output = $tempOutput;
 
             $this->task->save();
-
-            //$count++;
         }
 
     }
