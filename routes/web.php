@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TaskController;
 use Illuminate\Foundation\Application;
@@ -35,3 +36,6 @@ Route::controller(TaskController::class)->group(function () {
         ->name('task.status');
 });
 
+
+Route::get('/login', [AuthenticatedSessionController::class, 'create']);
+Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('login');
