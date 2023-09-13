@@ -1,9 +1,11 @@
 <?php
 
+use App\Events\UpdateProfileInformation;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TaskController;
 use App\Models\Task;
+use App\Models\User;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -49,4 +51,12 @@ Route::get('/test', function () {
     $task->output = $tempOutput;
 
     dd($task->output);
+});
+
+Route::get('/test2', function () {
+    $users = User::where('id', 1)->get();
+
+    foreach ($users as $user) {
+        event(new UpdateProfileInformation($user));
+    }
 });

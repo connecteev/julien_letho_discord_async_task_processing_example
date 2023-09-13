@@ -20,3 +20,7 @@ Broadcast::channel('public', fn() => true);
 Broadcast::channel('private.{taskId}', function (User $user, int $taskId) {
     return $taskId === 3;
 });
+
+Broadcast::channel('update.available.{user}', function (User $user) {
+    return true;
+});

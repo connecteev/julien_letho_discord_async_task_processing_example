@@ -1,17 +1,20 @@
 <template>
-    <button @click="start()">Start</button>
-    <div>
+    <Layout>
+        <button @click="start()">Start</button>
+        <div>
 
-        <p v-for="o in output" :key="o">
-            Created: [{{ o.created }}] | Message: {{ o.message }}
-        </p>
-    </div>
+            <p v-for="o in output" :key="o">
+                Created: [{{ o.created }}] | Message: {{ o.message }}
+            </p>
+        </div>
+    </Layout>
 </template>
 
 <script setup>
 
 import { router, usePage } from '@inertiajs/vue3'
 import { ref } from 'vue'
+import Layout from '@/Layouts/Layout.vue'
 
 const props = defineProps({
     task: Object
