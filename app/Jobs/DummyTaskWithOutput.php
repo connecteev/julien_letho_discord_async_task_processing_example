@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Events\UpdateProgress;
 use App\Models\Task;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -11,6 +12,10 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Process;
+use function broadcast;
+use function event;
+use function now;
+use function sleep;
 
 class DummyTaskWithOutput implements ShouldQueue
 {
@@ -29,7 +34,6 @@ class DummyTaskWithOutput implements ShouldQueue
      */
     public function handle(): void
     {
-        info('Job running');
         $progress = 0;
         $this->task->job_started = true;
         $this->task->save();
@@ -42,7 +46,7 @@ class DummyTaskWithOutput implements ShouldQueue
         $latestOutput = "";
         $outputArray = [];
         $max_entries = 5;
-        while ($process->running()) {
+        /*while ($process->running()) {
             $latestOutput = $process->latestOutput();
 
             if (strlen($latestOutput) > 0) {
@@ -54,12 +58,13 @@ class DummyTaskWithOutput implements ShouldQueue
                 foreach (array_reverse($outputArray) as $v) {
                     $output .= $v . "<br/>";
                 }
+
+                event(new UpdateProgress('Status updated: ' . now(), $this->task));
+
                 $this->task->output = $output;
                 $this->task->save();
             }
-        }
+        }*/
 
-        $this->task->job_completed = true;
-        $this->task->save();
     }
 }

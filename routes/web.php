@@ -1,7 +1,11 @@
 <?php
 
+use App\Events\UpdateProfileInformation;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TaskController;
+use App\Models\Task;
+use App\Models\User;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -35,3 +39,24 @@ Route::controller(TaskController::class)->group(function () {
         ->name('task.status');
 });
 
+
+Route::get('/login', [AuthenticatedSessionController::class, 'create']);
+Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('login');
+
+Route::get('/test', function () {
+    $task = Task::find(3);
+
+    $tempOutput = $task->output;
+    $tempOutput[] = ['message' => fake()->sentence(), now()];
+    $task->output = $tempOutput;
+
+    dd($task->output);
+});
+
+Route::get('/test2', function () {
+    $users = User::where('id', 1)->get();
+
+    foreach ($users as $user) {
+        event(new UpdateProfileInformation($user));
+    }
+});

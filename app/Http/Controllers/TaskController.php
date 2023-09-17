@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\DummyJobSlowCountToOneHundred;
+use App\Jobs\DummyProcess;
 use App\Jobs\DummyTaskWithOutput;
 use App\Models\Task;
 use Illuminate\Http\JsonResponse;
@@ -38,6 +39,8 @@ class TaskController extends Controller
             case 2:
                 dispatch(new DummyTaskWithOutput($task));
                 break;
+            case 3:
+                dispatch(new DummyProcess($task));
             default:
         }
         return back();
