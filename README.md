@@ -16,3 +16,13 @@
 
 ### TODO:
 - Task live logs / streaming logs
+
+### To get up and running with the websockets branch:
+- php artisan serve
+- npm run dev
+- php artisan queue:clear
+- php artisan queue:work
+- php artisan queue:work --queue=broadcasting
+- php artisan queue:clear --queue=tasks
+- php artisan queue:work --queue=tasks
+- php artisan websockets:serve
