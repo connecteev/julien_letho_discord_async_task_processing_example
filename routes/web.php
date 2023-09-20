@@ -60,3 +60,7 @@ Route::get('/test2', function () {
         event(new UpdateProfileInformation($user));
     }
 });
+Route::get('/dashboard', function () {
+    return Inertia::render('Dashboard', [
+    ]);
+})->name('dashboard');

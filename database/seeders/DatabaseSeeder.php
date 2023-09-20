@@ -19,16 +19,25 @@ class DatabaseSeeder extends Seeder
         Task::create(['id' => 2, 'name' => 'Dummy Task with Output (Polling)']);
         Task::create(['id' => 3, 'name' => 'Dummy Task with Output (Websockets)']);
 
-        User::create([
+//        User::create([
+//            'name'     => 'Julien',
+//            'email'    => 'jj@gmail.com',
+//            'password' => bcrypt(12345)
+//        ]);
+//
+//        User::create([
+//            'name'     => 'Someone Else',
+//            'email'    => 'se@gmail.com',
+//            'password' => bcrypt(12345)
+//        ]);
+
+        \App\Models\User::factory(1)->create([
             'name'     => 'Julien',
             'email'    => 'jj@gmail.com',
-            'password' => bcrypt(12345)
         ]);
-
-        User::create([
+        \App\Models\User::factory(1)->create([
             'name'     => 'Someone Else',
             'email'    => 'se@gmail.com',
-            'password' => bcrypt(12345)
         ]);
 
         // \App\Models\User::factory(10)->create();
