@@ -26,3 +26,5 @@
 - php artisan queue:clear --queue=tasks
 - php artisan queue:work --queue=tasks
 - php artisan websockets:serve
+- Login as jj@gmail.com / password
+- Go to /task2
