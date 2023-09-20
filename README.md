@@ -18,7 +18,7 @@
 - Task live logs / streaming logs
 
 ### To get up and running with the websockets branch:
-- php artisan serve
+- php artisan serve (or use Laravel Herd)
 - npm run dev
 - php artisan queue:clear
 - php artisan queue:work
