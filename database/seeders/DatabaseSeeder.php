@@ -19,16 +19,16 @@ class DatabaseSeeder extends Seeder
         Task::create(['id' => 2, 'name' => 'Dummy Task with Output (Polling)']);
         Task::create(['id' => 3, 'name' => 'Dummy Task with Output (Websockets)']);
 
-        \App\Models\User::factory(1)->create([
+        User::factory(1)->create([
             'name'     => 'Julien',
             'email'    => 'jj@gmail.com',
         ]);
-        \App\Models\User::factory(1)->create([
+        User::factory(1)->create([
             'name'     => 'Someone Else',
             'email'    => 'se@gmail.com',
         ]);
 
-        \App\Models\User::factory(1)->create([
+        User::factory(1)->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
