@@ -15,6 +15,7 @@
         "laravel/tinker": "^2.8",
         "pbmedia/laravel-ffmpeg": "^8.3",
         "pusher/pusher-php-server": "7.0.2",
+        "react/promise": "^2.3",
         "spatie/image": "^2.2",
         "tightenco/ziggy": "^1.0"
     },
